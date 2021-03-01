@@ -1,7 +1,13 @@
 
 import React from 'react' 
-import { Practice } from './Practice'
-export default function App(){
 
-    return <Practice />
+import { Game } from './Multiplayer/components'
+
+export default function App(){
+    
+    return(
+        <div>
+            <Game />
+        </div>
+    )
 }
