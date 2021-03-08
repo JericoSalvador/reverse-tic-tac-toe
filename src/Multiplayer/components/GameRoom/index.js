@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useLocalStorage from '../../helpers/useLocalStorage';
 import db from '../../firebase';
-import Board, { boardstates } from '../Board';
+import Board from '../Board';
+import Lobby from '../Lobby';
+import BoardControls from '../BoardControls';
+
+import './style.css'
 
 const collection = db.collection('rooms');
 function GameRoom(props){
     
-    const [gameState, setGameState] = useLocalStorage('gameState',null);
+    const [gameState, setGameState] = useState({});
     const [roomid, ] = useLocalStorage('roomid', null)
     const [name, ] = useLocalStorage('name', null)
 
@@ -19,7 +23,6 @@ function GameRoom(props){
                 props.setPage("RoomSelection")
             }
             else{
-                console.log(doc.data())
                 setGameState(doc.data());
             }
         })
@@ -27,21 +30,6 @@ function GameRoom(props){
         return ()=>{unsub()}
     },[]);
 
-    function clearBoard(){
-        if(gameState.players.length !== 2)
-        {
-            alert("No one else in room")
-            return; 
-        }
-        const docRef = collection.doc(roomid)
-        const players = gameState.players
-        const turn = [...players]
-        if(Math.random()*2 < 1) turn.reverse();
-        docRef.update({board: new Array(9).fill(boardstates.none), 
-                       gameRunning: true,
-                       turn 
-                    })
-    }
     function leaveRoom(){
         if(name === gameState.host)
             collection.doc(roomid).delete().then(()=>{
@@ -54,19 +42,23 @@ function GameRoom(props){
         else{
             const players = gameState.players;
             const newPlayers = players.filter((player)=>{return player !== name})
-            collection.doc(roomid).update({players:newPlayers})
+            collection.doc(roomid).update({players:newPlayers,display:"Lobby"})
             console.log("Left Game")
             props.setPage("RoomSelection")
         }
     }
 
     return(
-        <div>
-            <h2>Game Room</h2>
-            { gameState!= null && <Board gameState={gameState} />}
-            
-            <button onClick={clearBoard}>clear</button>
-            <button onClick={leaveRoom}>Leave Game</button>
+        <div className="game_room__container">
+            <div className="game_room__header">
+                <div className="game_room__header_info">
+                    <p>Room ID: {roomid}</p>
+                    <p>Your name: {name}</p>
+                </div>
+                <button id="leave-button" className="button danger"onClick={leaveRoom}>Leave Room</button>
+            </div>
+            {gameState.display === "Lobby" && <Lobby roomid={roomid} name={name}gameState={gameState} />}
+            {gameState.display === "Board" && <Board gameState={gameState}> <BoardControls roomid={roomid}  gameState={gameState} /></Board>}
         </div>
     );
 }

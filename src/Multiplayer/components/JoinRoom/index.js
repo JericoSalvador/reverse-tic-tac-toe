@@ -7,11 +7,9 @@ function JoinRoom(props){
 
     const [roomid, setRoomid] = useLocalStorage("roomid", "")
     const [name, setName] = useLocalStorage("name", "")
-    const [inRoom, setInRoom] = useLocalStorage("inRoom", false)
     const [errMsg, setErrMsg] = useState("")
 
     const joinRoom = ()=>{
-        // if(inRoom) return; 
         const docRef = collection.doc(roomid); 
         docRef.get().then((doc)=>{
             if(!doc.exists){
@@ -30,7 +28,6 @@ function JoinRoom(props){
             }
             players.push(name); 
             docRef.update({players});
-            setInRoom(true);
             console.log(`Joined: ${roomid} as ${name}`)
             props.setPage("GameRoom")
         });
@@ -38,22 +35,35 @@ function JoinRoom(props){
 
     const submit = () => {
         setErrMsg("")
-        if(roomid === "" || name === "") return; 
+        if(roomid === ""){
+            setErrMsg("Please enter a Room ID")
+            return;
+        }
+        if(name === "") {
+            setErrMsg("Please enter a name")
+            return;
+        }; 
         joinRoom();
     }
 
     return(
-        <div>
+        <div className="create_room__container">
             <div>
-                <input value={roomid} onChange={(e)=>setRoomid(e.target.value)}/>
+                <div className="create_room__input_container">
+                    <p>Roomid:</p>
+                    <input className="create_room__input" value={roomid} onChange={(e)=>setRoomid(e.target.value)}/>
+                </div>
+                <div className="create_room__input_container">
+                    <p>Name:</p>
+                    <input className="create_room__input"value={name} onChange={(e)=>setName(e.target.value)}/>
+                </div>
+                {errMsg}
             </div>
-            <div>
-                <input value={name} onChange={(e)=>setName(e.target.value)}/>
+            <div className="create_room__button_container">
+                <button className="button gray"onClick={()=>{props.setPage("RoomSelection")}}>Back</button>
+                <button className="button"onClick={submit}>Join Room</button>
             </div>
-            {errMsg !== "" && <p>{errMsg}</p>}
-            <div>
-                <button onClick={submit}>Join Room</button>
-            </div>
+            
         </div>
     )
 

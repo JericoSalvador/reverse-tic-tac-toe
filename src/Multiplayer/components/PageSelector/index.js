@@ -5,22 +5,20 @@ import CreateRoom from '../CreateRoom'
 import JoinRoom from '../JoinRoom'
 import GameRoom from '../GameRoom'
 
+import './style.css'
+
 function PageSelector(){
     
     const [page,setPage] = useLocalStorage("page", "RoomSelection")
 
     return(
-        <div> 
-            <div className="Navbar">
-                <button onClick={()=>setPage("RoomSelection")}>RoomSelection</button>
-                <button onClick={()=>setPage("CreateRoom")}>CreateRoom</button>
-                <button onClick={()=>setPage("JoinRoom")}>JoinRoom</button>
-                <button onClick={()=>setPage("GameRoom")}>GameRoom</button>
+        <div className="outer_container"> 
+            <div className="inner_container">
+                {page==="RoomSelection" && <RoomSelection setPage={setPage}/>}
+                {page==="CreateRoom" && <CreateRoom setPage={setPage}/>}
+                {page==="JoinRoom" && <JoinRoom setPage={setPage}/>}
+                {page==="GameRoom" && <GameRoom setPage={setPage}/>}
             </div>
-            {page==="RoomSelection" && <RoomSelection setPage={setPage}/>}
-            {page==="CreateRoom" && <CreateRoom setPage={setPage}/>}
-            {page==="JoinRoom" && <JoinRoom setPage={setPage}/>}
-            {page==="GameRoom" && <GameRoom setPage={setPage}/>}
         </div>
     )
 }

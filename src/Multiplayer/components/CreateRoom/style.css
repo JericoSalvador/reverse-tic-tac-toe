@@ -1,0 +1,32 @@
+
+.create_room__container{
+    width:100%; 
+    height:100%;
+    display:flex; 
+    flex-direction: column;
+    align-items:center;
+    justify-content: space-evenly;
+}
+.create_room__input_container{
+    width: 250px;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+}
+.create_room__input{
+    border:none;
+    background-color: lightblue;
+    border-radius: 5px;
+    padding:5px;
+    font-size: 20px;
+    width: 150px;
+}
+
+.create_room__button_container{
+    display: flex; 
+    justify-content: space-evenly;
+    width: 90%;
+}
+.gray{
+    background-color: gray;
+}

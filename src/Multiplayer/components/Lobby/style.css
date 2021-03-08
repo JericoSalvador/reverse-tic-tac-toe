@@ -1,0 +1,15 @@
+.lobby__container{
+    width: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+.lobby__title{
+    font-family: 'Akaya Telivigala', cursive;
+    font-size: 24px;
+    margin:5px;
+}
+
+.lobby__list_item{
+    background-color: white;
+}

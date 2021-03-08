@@ -48,7 +48,7 @@ function Box(props){
          onClick={markBox}
         >
         <h1 style={{fontSize:'100px'}}>
-        {toString(props.boardStatus)}
+        {toString(props.gameState.board[props.id])}
         </h1>
     </div>
     )

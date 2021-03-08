@@ -13,5 +13,5 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
+export const collection = db.collection('rooms')
 export default db
