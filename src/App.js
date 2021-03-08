@@ -1,13 +1,15 @@
 
-import React from 'react' 
+import React, {useEffect} from 'react' 
 
-import { Game } from './Multiplayer/components'
+import { PageSelector } from './Multiplayer/components'
+import useLocalStorage from './Multiplayer/helpers/useLocalStorage'
 
 export default function App(){
     
     return(
         <div>
-            <Game />
+            <PageSelector />
         </div>
+        
     )
 }
